@@ -15,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://picklesthesleepydog.com"),
-  title: "Pickle the Sleepy Dog | I'm not sleeping, you are",
+  title: "Pickles the Sleepy Dog | I'm not sleeping, you are",
   description:
     "Meet Pickles, the elderly canine who's mastered the art of napping. When he's not sleeping, he's thinking about his next cozy spot to doze off.",
   openGraph: {

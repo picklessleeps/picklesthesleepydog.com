@@ -56,11 +56,13 @@ export function AnimatedBackground() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setVisible(true);
-    }, 10000);
-    return () => clearTimeout(timeout);
-  }, []);
+    if (!visible) {
+      const timeout = setTimeout(() => {
+        setVisible(true);
+      }, 10000);
+      return () => clearTimeout(timeout);
+    }
+  }, [visible]);
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -73,7 +75,7 @@ export function AnimatedBackground() {
           )}
           style={{
             width: "100vw",
-            height: "100vh",
+            height: "100dvh",
             fontSize: `${Math.random() * 40 + 20}px`,
             fontWeight: 900,
             left: `${Math.random() * 100}%`,
@@ -95,7 +97,7 @@ export function AnimatedBackground() {
           )}
           style={{
             width: "100vw",
-            height: "100vh",
+            height: "100dvh",
             fontSize: `${Math.random() * 40 + 20}px`,
             fontWeight: 900,
             left: `${Math.random() * 100}%`,

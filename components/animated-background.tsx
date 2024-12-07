@@ -66,7 +66,7 @@ export function AnimatedBackground() {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {[...Array(Math.floor(30))].map((_, i) => (
+      {[...Array(Math.floor(15))].map((_, i) => (
         <motion.div
           key={i}
           className={cn(
@@ -80,7 +80,7 @@ export function AnimatedBackground() {
             fontWeight: 900,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            willChange: "transform",
+            willChange: "transform, opacity",
           }}
           animate="animate"
           variants={floatingZ}
@@ -88,7 +88,7 @@ export function AnimatedBackground() {
           Z
         </motion.div>
       ))}
-      {[...Array(Math.floor(30))].map((_, i) => (
+      {[...Array(Math.floor(15))].map((_, i) => (
         <motion.div
           key={`${i}-2`}
           className={cn(
@@ -102,7 +102,7 @@ export function AnimatedBackground() {
             fontWeight: 900,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            willChange: "transform",
+            willChange: "transform, opacity",
           }}
           animate={visible ? "animate" : "initial"}
           initial={{

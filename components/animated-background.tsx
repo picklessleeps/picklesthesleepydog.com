@@ -1,118 +1,120 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimationProps, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const floatingZ: AnimationProps["variants"] = {
-  initial: {
-    opacity: 0,
-  },
-  animate: {
-    y: ["100%", "-100%"],
-    opacity: [0.3, 0.8, 0.3],
-    transition: {
-      y: {
-        repeat: Infinity,
-        duration: 20,
-        ease: "linear",
-        repeatType: "loop",
-      },
-      opacity: {
-        repeat: Infinity,
-        duration: 2,
-        ease: "linear",
-      },
-    },
-  },
-};
-const floatingZ2: AnimationProps["variants"] = {
-  initial: {
-    opacity: 0,
-    transition: {
-      delay: 20,
-    },
-  },
-  animate: {
-    y: ["100%", "-100%"],
-    opacity: [0.3, 0.8, 0.3],
-    transition: {
-      y: {
-        repeat: Infinity,
-        duration: 20,
-        ease: "linear",
-        repeatType: "loop",
-      },
-      opacity: {
-        repeat: Infinity,
-        duration: 2,
-        ease: "linear",
-      },
-    },
-  },
+const FloatingZs = ({
+  id,
+  delay = 10,
+  count = 15,
+}: {
+  id: string;
+  count?: number;
+  delay?: number;
+}) => {
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      const timeout = setTimeout(() => {
+        setShouldAnimate(true);
+      }, delay);
+      return () => clearTimeout(timeout);
+    }
+  });
+
+  return (
+    <motion.div
+      animate={shouldAnimate ? "animate" : "initial"}
+      style={{
+        height: `100%`,
+        opacity: 0,
+        transform: "translateY(-50%)",
+        willChange: "transform, opacity",
+        top: 0,
+        left: 0,
+      }}
+      className={"absolute inset-0 overflow-visible pointer-events-none"}
+      variants={{
+        animate: {
+          y: ["100%", "-100%"],
+          opacity: [0.3, 0.8, 0.3],
+          transition: {
+            y: {
+              repeat: Infinity,
+              duration: 20,
+              ease: "linear",
+              repeatType: "loop",
+            },
+            opacity: {
+              repeat: Infinity,
+              duration: 2,
+              ease: "linear",
+              repeatType: "loop",
+            },
+          },
+        },
+        initial: {
+          y: "-50%",
+          opacity: 0,
+        },
+      }}
+    >
+      {[...Array(Math.floor(count))].map((_, i) => (
+        <span
+          key={`${id}-${i}`}
+          className={cn(
+            "absolute text-opacity-50 select-none z-0",
+            i % 2 === 0 ? "text-blue-300" : "text-red-300"
+          )}
+          style={{
+            width: "100%",
+            height: "100%",
+            fontSize: `${Math.random() * 40 + 20}px`,
+            fontWeight: `${Math.round(Math.random() * 9)}00`,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            transform: `rotate(${Math.random() > 0.5 ? "-" : ""}${
+              Math.random() * 50
+            }deg)`,
+          }}
+        >
+          Z
+        </span>
+      ))}
+    </motion.div>
+  );
 };
 
 export function AnimatedBackground() {
-  const [visible, setVisible] = useState(false);
+  const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    if (!visible) {
-      const timeout = setTimeout(() => {
-        setVisible(true);
-      }, 10000);
-      return () => clearTimeout(timeout);
-    }
-  }, [visible]);
+    if (typeof window === "undefined") return;
+
+    const handleWindowChange = () => {
+      if (typeof window !== "undefined" && height !== window.innerHeight) {
+        setHeight(window.innerHeight);
+      }
+    };
+
+    handleWindowChange();
+
+    window.addEventListener("resize", handleWindowChange);
+
+    return () => window.removeEventListener("resize", handleWindowChange);
+  }, [height]);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none">
-      {[...Array(Math.floor(15))].map((_, i) => (
-        <motion.div
-          key={i}
-          className={cn(
-            "absolute text-opacity-50 select-none z-0",
-            i % 2 === 0 ? "text-blue-300" : "text-red-300"
-          )}
-          style={{
-            width: "100vw",
-            height: "100dvh",
-            fontSize: `${Math.random() * 40 + 20}px`,
-            fontWeight: 900,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            willChange: "transform, opacity",
-          }}
-          animate="animate"
-          variants={floatingZ}
-        >
-          Z
-        </motion.div>
-      ))}
-      {[...Array(Math.floor(15))].map((_, i) => (
-        <motion.div
-          key={`${i}-2`}
-          className={cn(
-            "absolute text-opacity-50 select-none z-0",
-            i % 2 === 0 ? "text-blue-300" : "text-red-300"
-          )}
-          style={{
-            width: "100vw",
-            height: "100dvh",
-            fontSize: `${Math.random() * 40 + 20}px`,
-            fontWeight: 900,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            willChange: "transform, opacity",
-          }}
-          animate={visible ? "animate" : "initial"}
-          initial={{
-            opacity: 0,
-          }}
-          variants={floatingZ2}
-        >
-          Z
-        </motion.div>
-      ))}
+    <div
+      style={{
+        height: `${height || 770}px`,
+      }}
+      className={cn("fixed inset-0 overflow-hidden pointer-events-none")}
+    >
+      <FloatingZs key={"bg-1"} id={"1"} />
+      <FloatingZs key={"bg-2"} id={"2"} delay={10000} />
     </div>
   );
 }

@@ -56,7 +56,7 @@ const roadmapItems: RoadmapItem[] = [
   },
   {
     title: "Q4 2025",
-    description: "Stock up on $SLEEPY for the next bull run 🌙",
+    description: "Catch more Z's through crypto winter 🌙",
     image: "/roadmap-4.jpg",
   },
 ];

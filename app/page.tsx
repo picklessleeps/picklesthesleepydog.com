@@ -40,23 +40,23 @@ type RoadmapItem = {
 
 const roadmapItems: RoadmapItem[] = [
   {
-    title: "Q1 2024",
+    title: "Q1 2025",
     description: "Take longer naps during market volatility 😴",
     image: "/roadmap-00.jpg",
   },
   {
-    title: "Q2 2024",
-    description: "Perfect the art of sleeping through FUD 💤",
+    title: "Q2 2025",
+    description: "Hibernate through explosive altcoin season 💤",
     image: "/roadmap-0.jpg",
   },
   {
-    title: "Q3 2024",
-    description: "Research optimal sleeping positions for gains 🛏️",
+    title: "Q3 2025",
+    description: "Achieve a new All Time Hi(bernation) status 🛏️",
     image: "/roadmap-1.jpg",
   },
   {
-    title: "Q4 2024",
-    description: "Achieve legendary hibernation status 🌙",
+    title: "Q4 2025",
+    description: "Stock up on $SLEEPY for the next bull run 🌙",
     image: "/roadmap-4.jpg",
   },
 ];

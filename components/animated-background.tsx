@@ -93,23 +93,15 @@ export function AnimatedBackground() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const handleWindowChange = () => {
-      if (typeof window !== "undefined" && height !== window.innerHeight) {
-        setHeight(window.innerHeight);
-      }
-    };
-
-    handleWindowChange();
-
-    window.addEventListener("resize", handleWindowChange);
-
-    return () => window.removeEventListener("resize", handleWindowChange);
+    if (!height) {
+      setHeight(window.innerHeight);
+    }
   }, [height]);
 
   return (
     <div
       style={{
-        height: `${height || 770}px`,
+        height: `${height + 70 || 770}px`,
       }}
       className={cn("fixed inset-0 overflow-hidden pointer-events-none")}
     >

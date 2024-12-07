@@ -6,6 +6,7 @@ import { MoonStar, Coins, Twitter, ExternalLink, Zap } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { cn } from "@/lib/utils";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -30,6 +31,101 @@ const Background = dynamic(
     ssr: false,
   }
 );
+
+type RoadmapItem = {
+  title: string;
+  description: string;
+  image: string;
+};
+
+const roadmapItems: RoadmapItem[] = [
+  {
+    title: "Q1 2024",
+    description: "Take longer naps during market volatility 😴",
+    image: "/roadmap-00.jpg",
+  },
+  {
+    title: "Q2 2024",
+    description: "Perfect the art of sleeping through FUD 💤",
+    image: "/roadmap-0.jpg",
+  },
+  {
+    title: "Q3 2024",
+    description: "Research optimal sleeping positions for gains 🛏️",
+    image: "/roadmap-1.jpg",
+  },
+  {
+    title: "Q4 2024",
+    description: "Achieve legendary hibernation status 🌙",
+    image: "/roadmap-4.jpg",
+  },
+];
+
+const Roadmap = ({ items }: { items: RoadmapItem[] }) => {
+  return (
+    <motion.section
+      className="container mx-auto px-4 py-16 relative z-10"
+      initial="initial"
+      animate="animate"
+      variants={staggerChildren}
+    >
+      <motion.h2
+        variants={fadeIn}
+        className="text-4xl font-bold text-center mb-12 text-blue-700"
+      >
+        Roadmap to More Z&apos;s
+      </motion.h2>
+
+      <div className="flex flex-col max-w-4xl mx-auto relative">
+        {items.map((item, index) => (
+          <motion.div
+            key={`${item.title}-${item.description}`}
+            variants={fadeIn}
+          >
+            <div className={cn("flex items-center justify-between relative")}>
+              <div
+                className={cn(
+                  "flex items-center justify-between my-2 py-6 pl-12 pr-4 bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors duration-300 rounded-full ml-4 md:ml-0 md:max-w-[48%] grow relative z-[10]",
+                  index % 2 === 0 ? "md:mr-auto" : "md:ml-auto"
+                )}
+              >
+                <div className="flex flex-col items-start gap-2 justify-start">
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p className="m-0">{item.description}</p>
+                </div>
+                <div className="flex shrink-0 flex-col gap-4 top-0 sticky bg-blue-400 self-center rounded-full ml-4 overflow-hidden h-[100px] w-[100px] items-center justify-center">
+                  <Image
+                    src={item.image}
+                    alt="Roadmap"
+                    width={100}
+                    height={100}
+                    className="object-cover h-full w-full"
+                  />
+                </div>
+              </div>
+              <div
+                className={cn(
+                  "absolute top-0 block h-full min-h-full shrink-0 w-2 bg-blue-400 md:left-1/2 -translate-x-1/2 z-[-1]",
+                  index === 0 ? "rounded-t-full" : "",
+                  index === items.length - 1 ? "rounded-b-full" : ""
+                )}
+              >
+                <span
+                  className={cn(
+                    "content-[''] block h-[10px] top-1/2 w-4 bg-blue-400 absolute -translate-y-1/2 left-0 -z-1",
+                    index % 2 === 0
+                      ? "md:-translate-x-full md:right-0"
+                      : "md:translate-x-1/2 md:left-0"
+                  )}
+                ></span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.section>
+  );
+};
 
 export default function Home() {
   return (
@@ -232,6 +328,9 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Roadmap Section */}
+      <Roadmap items={roadmapItems} />
 
       {/* Footer */}
       <motion.footer

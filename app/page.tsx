@@ -32,6 +32,13 @@ const Background = dynamic(
   }
 );
 
+const YouTubeVideo = dynamic(
+  () => import("@/components/youtube-video").then((mod) => mod.YouTubeVideo),
+  {
+    ssr: false,
+  }
+);
+
 type RoadmapItem = {
   title: string;
   description: string;
@@ -123,6 +130,57 @@ const Roadmap = ({ items }: { items: RoadmapItem[] }) => {
           </motion.div>
         ))}
       </div>
+    </motion.section>
+  );
+};
+
+const About = () => {
+  return (
+    <motion.section
+      className="container mx-auto px-4 py-16 relative z-10"
+      initial="initial"
+      animate="animate"
+      variants={staggerChildren}
+    >
+      <motion.h2
+        variants={fadeIn}
+        className="text-4xl font-bold text-center mb-12 text-blue-700"
+      >
+        About $SLEEPY
+      </motion.h2>
+      <motion.div variants={fadeIn}>
+        <div className="flex flex-col max-w-4xl mx-auto gap-4 text-blue-700 text-xl bg-blue-100 p-6 rounded-2xl shadow-lg transform rotate-1">
+          <p>
+            The $SLEEPY token was made by a web engineer (
+            <Link
+              href={"https://paulsingh.dev"}
+              title="Visit Paul's website"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="font-bold underline"
+            >
+              Paul Singh
+            </Link>
+            ) in dedication to his elderly dog, Nip. The reason for calling the
+            token <strong>Pickles The Sleepy Dog</strong> is simply that Pickles
+            is used as a loving nickname for Nip by close family and friends.
+          </p>
+          <p>
+            Paul decided to make the memecoin in an attempt to immortalise his
+            best friend, Nip, on the Solana blockhain. The reason for this
+            decision was that Nip received a bad diagnosis which the vet advised
+            against operating on due to the fact that Nip is very old (16 at the
+            time of writing this).
+          </p>
+          <p>
+            Nip has brought Paul more love and joy than he could ever imagine
+            and has seen him through the hardest moments in his adult life. As
+            such, it is only right that Nip will live on forever, not only in
+            the hearts and minds of those who were lucky enough to meet him in
+            person, but also in the digital permanence of web 3.
+          </p>
+        </div>
+      </motion.div>
     </motion.section>
   );
 };
@@ -222,6 +280,11 @@ export default function Home() {
           </motion.div>
         </div>
       </motion.section>
+
+      {/* Youtube */}
+      <div className="min-h-[500px] my-24 relative z-2">
+        <YouTubeVideo />
+      </div>
 
       {/* Features Section */}
       <motion.section
@@ -331,6 +394,9 @@ export default function Home() {
 
       {/* Roadmap Section */}
       <Roadmap items={roadmapItems} />
+
+      {/* About */}
+      <About />
 
       {/* Footer */}
       <motion.footer
